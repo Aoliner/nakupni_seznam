@@ -1,7 +1,32 @@
-import React from 'react'
-export default function List({listName}) {
-  return (<div className='list button'>
-    <div className='listName'>{listName}</div>
-    </div>
-  )
+import React from 'react';
+import { Link } from 'react-router-dom';
+import userInfo from '../userInfo';
+import lists from '../lists';
+export default function List({listName, isShown, isArchived, listId, unarchive, tileView}) {
+  const isUserOwner = userInfo.UserId === lists.find(list => list.listId === listId)?.users.owner.UserId;
+  return (
+    <>
+      {isShown && (
+        <div className={tileView? 'list titleStyleList': "list"}>
+           <Link className={`button listName ${isArchived ? 'disabled' : ""}`} to={`/list/${listId}`} >
+          <div >{listName}</div></Link>
+          {!isArchived ? (
+            <Link to={`/list/settings/${listId}`}>
+              <div title="Settings" className='listSettings button'></div>
+            </Link>
+          ) : (
+              isUserOwner && (
+              <div
+                title="Unarchive List"
+                onClick={() => {
+                  unarchive(listId);
+                }}
+                className='listArchived button'
+              ></div>
+            )
+          )}
+        </div>
+      )}
+    </>
+  );
 }

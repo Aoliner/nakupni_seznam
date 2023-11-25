@@ -119,7 +119,7 @@ code {
 }
 
 dialog {
-  border: solid 1px rgb(72, 72, 72);
+  border: solid 1px rgb(147, 147, 147);
 }
 
 dialog::backdrop {
@@ -128,8 +128,14 @@ dialog::backdrop {
 
 .disabled {
   pointer-events: none;
+ 
+  color:rgb(85, 85, 85);
+
 }
 
+dialog::backdrop {
+  backdrop-filter: blur(2px);
+}
 .listMenuItems {
   display: flex;
   flex-direction: column;
@@ -148,14 +154,32 @@ dialog::backdrop {
 .tilesStyle {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 8px;
+  grid-row-gap: 8px; 
+  height: calc(50vh - 15px);
+  
 } 
 
+.titleStyleListBox{
+  border: 0.5px solid black;
+  display:flex;
+  justify-content:center;
+box-shadow: 1px 4px 13px 0px rgba(0,0,0,0.42);
+-webkit-box-shadow: 1px 4px 13px 0px rgba(0,0,0,0.42);
+-moz-box-shadow: 1px 4px 13px 0px rgba(0,0,0,0.42);
+}
+.titleStyleList{
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+}
 
 /* -------------------  styling for ListsMenu.js -------------------------- */
-
+.list{
+  display: flex;
+  justify-content: space-between;
+}
 a{
   text-decoration: none;
   color: black;
@@ -186,10 +210,7 @@ a{
   background-image: url("/public/icons/archive.png");
 
 }
-.listInfo{
-  display: flex;
- justify-content: space-between;
-}
+
 .listSettings,
 .listArchived,
 .darkThemeButton,
@@ -200,7 +221,10 @@ a{
   border: none;
   cursor: pointer;
 }
-
+.listBorder{
+  border: #000000 solid 1px;
+}
+ 
 /* -------------------  styling for Settings.js -------------------------- */
 
 
@@ -257,4 +281,8 @@ a{
 .listMenuOptions,
 .listMenuHeader {
   border-bottom:2.5px solid black;
+}
+
+.centerText {
+  text-align: center;
 }

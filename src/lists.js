@@ -2,8 +2,9 @@
 export default [
    {
      "listId": 123,
-     "listName": "Shopping List 4",
+     "listName": "Shopping List 3",
      "isArchived":false,
+     "isShown": true,
      "users":{
       "owner":{
          "UserId":54535435,
@@ -54,8 +55,9 @@ export default [
 
    {
      "listId": 124,
-     "listName": "Shopping List 5",
+     "listName": "Shopping List 4",
      "isArchived":false,
+     "isShown": true,
      "users":{
       "owner":{
          "UserId":14535435,
@@ -105,17 +107,19 @@ export default [
    },
    {
      "listId": 125,
-     "listName": "Shopping List 6",
+     "listName": "Shopping List 5",
      "isArchived":true,
+     "isShown": true,
      "users":{
       "owner":{
-         "UserId":24535435,
-         "UserName":"User3"
+         "UserId":54535435,
+         "UserName":"User1"
+       
       },
       "guests":[
          {
-            "UserId":54535435,
-            "UserName":"User1"
+            "UserId":24535435,
+            "UserName":"User3"
          },
          {
             "UserId":14535435,

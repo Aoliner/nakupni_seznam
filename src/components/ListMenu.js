@@ -15,12 +15,18 @@ export default function ListMenu({ listId }) {
     let popupDialogue;
   
     useEffect(() => {
-        const fetchedList = lists.find(list => list.listId === parseInt(listId))
+        const fetchedList = lists.find(list => list.listId === (listId))
         setShoppingItems(fetchedList)
+        console.log(fetchedList)
+    
       }, [listId])
-  
+    
+    
     function generateId() {
       return nanoid()
+    }
+    function updateLists(updatedLists){
+      lists.splice(0, lists.length, ...updatedLists);
     }
   
     function deleteItem(id) {
@@ -29,8 +35,8 @@ export default function ListMenu({ listId }) {
 
       ///
       const updatedLists = lists.map(list =>
-        list.listId === parseInt(listId) ? { ...list, items: updatedItems } : list)
-        Object.assign(lists, updatedLists)
+        list.listId ===(listId) ? { ...list, items: updatedItems } : list)
+        updateLists(updatedLists)
     }
   
     function showModal() {
@@ -42,7 +48,8 @@ export default function ListMenu({ listId }) {
     function handleInputChange(event) {
       setNewItemText(event.target.value);
     }
-  
+
+    
     function addItem() {
       if (newItemText) {
         const newItem = {
@@ -55,13 +62,16 @@ export default function ListMenu({ listId }) {
         closeModaWindow()
         ///
         const updatedLists = lists.map(list =>
-            list.listId === parseInt(listId) ? { ...list, items: [...list.items, newItem] } : list
+            list.listId === (listId) ? { ...list, items: [...list.items, newItem] } : list
           )
-          Object.assign(lists, updatedLists)
+          updateLists(updatedLists)
       }
       else setPromptText("Please write something!")
     }
   
+
+
+
     function showOrHideItems(type) {
       const updatedItems = shoppingItems.items.map(item => ({
         ...item,
@@ -73,14 +83,17 @@ export default function ListMenu({ listId }) {
       setShoppingItems(updatedList)
     }
   
+
+
+
     function updateIsResolved(id) {
       const updatedItems = shoppingItems.items.map(item => (item.itemId === id ? { ...item, isDone: !item.isDone } : { ...item }))
       const updatedList = { ...shoppingItems, items: updatedItems }
       setShoppingItems(updatedList)
       ///
       const updatedLists = lists.map(list =>
-        list.listId === parseInt(listId) ? { ...list, items: updatedItems } : list)
-        Object.assign(lists, updatedLists)
+        list.listId === (listId) ? { ...list, items: updatedItems } : list)
+        updateLists(updatedLists)
 
     }
 
@@ -129,7 +142,10 @@ export default function ListMenu({ listId }) {
             </div>
           </div>
           <div className='listMenuItems listsStyle'>
-            {shoppingItems?.items.map(item => (
+          { shoppingItems?.items.length === 0 ? (
+          <div style={{ textAlign: 'center'}}>You don't have any items yet</div>
+        ): (
+              shoppingItems?.items.map(item => (
               <Item
                 updateIsResolved={updateIsResolved}
                 isShown={item.isShown}
@@ -142,7 +158,8 @@ export default function ListMenu({ listId }) {
                   id={item.itemId}
                   title="Delete Item" />}
               />
-            ))}
+              ))
+              )}
           </div>
         </div>
       </div>
