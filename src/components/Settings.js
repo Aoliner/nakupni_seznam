@@ -1,40 +1,46 @@
 import React from 'react'
-import lists from '../lists'
-import { useState, useEffect } from 'react';
-import { Link,  } from 'react-router-dom';
-import userInfo from '../userInfo';
-import DeleteButton from './DeleteButton';
-import ModalWindow from './ModalWindow';
-import AddButton from './AddButton';
-import users from '../users';
-import { useNavigate } from "react-router-dom";
-import ModalYesNo from './ModalYesNo';
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import DeleteButton from './DeleteButton'
+import ModalWindow from './ModalWindow'
+import AddButton from './AddButton'
+import { useNavigate } from "react-router-dom"
+import ModalYesNo from './ModalYesNo'
+import { getListById, getUserInfo, deleteUserFromList, addNewUserToList, changeListName, userLeaveList, updateUserAfterLeavingList, deleteListById, archiveListById } from '../ajaxController'
 
 export default function Settings({ listId }) {
-    const navigate = useNavigate();
-
-    const [shoppingList, setShoppingList] = useState(null);
-    const [newText, setNewText] = useState('');
+    const navigate = useNavigate()
+    const [shoppingList, setShoppingList] = useState(null)
+    const [newText, setNewText] = useState('')
     const [promptText, setPromptText] = useState("")
+    const [userList, setUserList] = useState(null)
+
+
 
     useEffect(() => {
-        const fetchedList = lists.find(list => list.listId === (listId));
-        setShoppingList(fetchedList);
+        getUserInfo()
+            .then(userInfoData => {
+                setUserList(userInfoData)
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error)
+            })
+    }, [])
 
-    }, [listId]);
+    useEffect(() => {
+        getListById(listId)
+            .then(fetchedList => {
+                setShoppingList(fetchedList)
+            })
+    }, [listId])
 
-  function updateLists(updatedLists){
-    lists.splice(0, lists.length, ...updatedLists);
-  }
+
 
     function deleteUser(id) {
-        const updatedGuests = shoppingList.users.guests.filter(guest => guest.UserId !== id)
-        setShoppingList(prevValue => ({ ...prevValue, users: { ...shoppingList.users, guests: updatedGuests } }))
-        ///
-        const updatedLists = lists.map(list =>
-            list.listId === (listId) ? { ...list, users: { ...list.users, guests: updatedGuests } } : list
-          );
-          updateLists(updatedLists)
+        deleteUserFromList(listId, id)
+            .then((updatedList) => {
+                setShoppingList(updatedList)
+            })
     }
 
     function showModal(modalName) {
@@ -42,7 +48,6 @@ export default function Settings({ listId }) {
         const modalNameWindow = document.querySelector(`.${modalName}`)
         modalNameWindow.show()
         document.querySelector('.disableWhileModalWindow').classList.add('disabled')
-
     }
 
     function handleInputChange(event) {
@@ -51,98 +56,84 @@ export default function Settings({ listId }) {
 
 
     function addUser() {
-        const existingUser = users.find(user => user.UserName === newText);
-        if (existingUser && !shoppingList.users.guests.some(guest => guest.UserName === newText)
-            && shoppingList.users.owner.UserName !== newText) {
-            const updatedGuests = [...shoppingList.users.guests, existingUser];
-            setShoppingList(prevValue => ({ ...prevValue, users: { ...shoppingList.users, guests: updatedGuests } }))
-            closeModal("popupDialogue")
-            ///
-            const updatedLists = lists.map(list =>
-                list.listId === (listId) ? { ...list, users: { ...list.users, guests: updatedGuests } } : list
-              )
-              updateLists(updatedLists)
-        }
-        else {
-            setPromptText("User doesn't exist or is in list")
-        }
+        addNewUserToList(listId, newText)
+            .then((updatedList) => {
+                setShoppingList(updatedList)
+                closeModal("popupDialogue")
+            })
+            .catch((error) => {
+                setPromptText(error.message)
+            })
     }
 
 
 
     function editListName() {
         if (newText) {
-            setShoppingList(prevValue => ({ ...prevValue, listName:newText }))
+            changeListName(listId, newText)
+                .then((updatedList) => {
+                    setShoppingList(updatedList)
+                })
+                .catch((error) => {
+                    setPromptText(error.message)
+                })
             closeModal("dialogChangeName")
-            ///
-            const updatedLists = lists.map(list =>
-                list.listId === (listId) ? { ...list, listName: newText } : list
-            )
-            updateLists(updatedLists)
+        } else {
+            setPromptText('Please write something!')
         }
-        else setPromptText("Please write something!")
 
     }
-
 
 
     function closeModal(modalName) {
         setPromptText("")
-        setNewText('');
-        document.querySelector('.disableWhileModalWindow').classList.remove('disabled');
+        setNewText('')
+        document.querySelector('.disableWhileModalWindow').classList.remove('disabled')
         const modalNameWindow = document.querySelector(`.${modalName}`)
         const modalNameInput = document.querySelector(`.${modalName}Input`)
         modalNameWindow.close()
-        if(modalNameInput != null){
-        modalNameInput.value = ""}
+        if (modalNameInput != null) {
+            modalNameInput.value = ""
+        }
     }
 
 
     function leaveList() {
-        const updatedUserLists = userInfo.userLists.filter(
-            userList => userList.listId !== (listId)
-          );
-          userInfo.userLists = updatedUserLists
-      
-
-        setShoppingList((prevValue) => ({
-            ...prevValue,
-            users: {
-              ...prevValue.users,
-              guests: prevValue.users.guests.filter((guest) => guest.UserName !== userInfo.UserName)
-            }
-          }));
-          navigate("/")
+        userLeaveList(listId, userList)
+            .then(() => {
+                updateUserAfterLeavingList(listId, userList)
+                    .then(() => {
+                        navigate('/')
+                    })
+                    .catch((error) => {
+                        console.error('Error updating user information after leaving the list:', error)
+                    })
+            })
+            .catch((error) => {
+                console.error('Error leaving the list:', error)
+            })
     }
 
-    function deleteList(listId){
-        const updatedUserLists = userInfo.userLists.filter(
-            userList => userList.listId !== (listId)
-        );
-        userInfo.userLists = updatedUserLists;
-    
-        const updatedLists = lists.filter(
-            list => list.listId !== (listId)
-        );
-        updateLists(updatedLists)
-        console.log(lists)
-    
-        navigate("/");
-
+    function deleteList(listId) {
+        deleteListById(listId, userList)
+            .then(() => {
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error('Error deleting list:', error)
+            })
     }
-    function archiveList(listId){
-        
-        setShoppingList((prevValue) => ({
-            ...prevValue,
-            isArchived: true
-          }));
-        ///
-          const updatedLists = lists.map(list =>
-          list.listId === (listId) ? { ...list, isArchived: true } : list)
-          updateLists(updatedLists)
+    function archiveList(listId) {
 
-        navigate("/")
-    }     
+        archiveListById(listId)
+            .then((updatedList) => {
+                setShoppingList(updatedList)
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error('Error archiving list:', error)
+            })
+    }
     return (
         <div>
             <ModalWindow
@@ -158,11 +149,11 @@ export default function Settings({ listId }) {
                 inputValue={newText}
             />
             <ModalYesNo
-               closeWindow={() => closeModal("dialogueYesNo")}
-                promptText ="delete"
+                closeWindow={() => closeModal("dialogueYesNo")}
+                promptText="delete"
                 cancel={() => closeModal("dialogueYesNo")}
-                confrim ={()=>deleteList(listId)}
-                />
+                confrim={() => deleteList(listId)}
+            />
 
 
             <dialog className='dialogChangeName' >
@@ -175,7 +166,7 @@ export default function Settings({ listId }) {
                     onChange={handleInputChange}
                     value={newText} />
                 <form method="dialog">
-                    <div className='editListNameButton button' onClick={editListName}>change</div>  
+                    <div className='editListNameButton button' onClick={editListName}>change</div>
                 </form>
             </dialog>
 
@@ -191,7 +182,7 @@ export default function Settings({ listId }) {
                             {shoppingList.users.guests.map(guest => (
                                 <div className='userSettingsDelete' key={guest.UserId}>
                                     {guest.UserName}
-                                    {userInfo.UserName === shoppingList.users.owner.UserName && (
+                                    {userList?.UserName === shoppingList.users.owner.UserName && (
                                         <DeleteButton
                                             deleteHandler={deleteUser}
                                             id={guest.UserId}
@@ -203,14 +194,14 @@ export default function Settings({ listId }) {
                         </>
                     )}
                 </div>
-                {shoppingList && userInfo.UserName === shoppingList.users.owner.UserName ? (
+                {shoppingList && userList?.UserName === shoppingList.users.owner.UserName ? (
                     <div className='administratorMenu'>
                         <div className='button' onClick={() => showModal("popupDialogue")}>Add User</div>
                         <div className='button' onClick={() => showModal("dialogChangeName")}>Edit Title</div>
                         <div className='button' onClick={() => showModal("dialogueYesNo")}>Delete List</div>
                         <div className='button' onClick={() => archiveList(listId)}> Archive List</div>
                     </div>)
-                    : (<div  className="leaveButton button" onClick={leaveList}>Leave List</div>)}
+                    : (<div className="leaveButton button" onClick={leaveList}>Leave List</div>)}
             </div>
         </div>
     )

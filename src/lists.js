@@ -1,7 +1,7 @@
 
 export default [
    {
-     "listId": 123,
+     "listId": "123",
      "listName": "Shopping List 3",
      "isArchived":false,
      "isShown": true,
@@ -25,7 +25,7 @@ export default [
 
       {
 
-          "itemId": 123,
+          "itemId": "123",
           "content": "ananas",
           "isDone": false,
           "isShown": true
@@ -54,7 +54,7 @@ export default [
    },
 
    {
-     "listId": 124,
+     "listId": "124",
      "listName": "Shopping List 4",
      "isArchived":false,
      "isShown": true,
@@ -106,7 +106,7 @@ export default [
   ]
    },
    {
-     "listId": 125,
+     "listId": "125",
      "listName": "Shopping List 5",
      "isArchived":true,
      "isShown": true,

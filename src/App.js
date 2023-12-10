@@ -6,13 +6,24 @@ import {Routes,Route} from "react-router-dom";
 import listsData from './lists';
 import ListsMenu from './components/ListsMenu';
 import Settings from './components/Settings';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getListById } from './ajaxController';
 function App() {
-  const [lists, setLists] = useState(listsData);
+  const [lists, setLists] = useState(null);
 
   const updateListsData = (updateListsData) => {
     setLists(updateListsData);
   };
+
+  useEffect(() => {
+    getListById("")
+      .then((fetchedLists) => {
+        setLists(fetchedLists); 
+      })
+      .catch((error) => {
+        console.error('Error fetching list:', error);
+      });
+  },[] );
 
   
   return (
@@ -20,7 +31,7 @@ function App() {
       <Routes>
       <Route path="/" element={<ListsMenu lists={lists}  updateListsData={updateListsData} />} />
 
-        {lists.map(list => (
+        {lists && lists.map(list => (
           <Route
             key={list.listId}
             path={`/list/${list.listId}`}
@@ -28,7 +39,7 @@ function App() {
           />
         ))}
 
-        {lists.map(list => (
+        {lists && lists.map(list => (
           <Route
             key={list.listId}
             path={`/list/settings/${list.listId}`}
