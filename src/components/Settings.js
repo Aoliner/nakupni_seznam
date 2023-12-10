@@ -32,6 +32,9 @@ export default function Settings({ listId }) {
             .then(fetchedList => {
                 setShoppingList(fetchedList)
             })
+            .catch(error => {
+                console.error('Error fetching list:', error)
+            })
     }, [listId])
 
 
@@ -40,6 +43,9 @@ export default function Settings({ listId }) {
         deleteUserFromList(listId, id)
             .then((updatedList) => {
                 setShoppingList(updatedList)
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error)
             })
     }
 
