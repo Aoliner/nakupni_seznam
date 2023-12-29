@@ -8,7 +8,7 @@
   pointer-events: none;
 }
 
-
+/* media Quaries */
 @media only screen and (max-width: 479px) {
   html {
     font-size:23px;
@@ -84,9 +84,4 @@
 .icon{
   margin: 0.3rem; 
 }
-}
-
-
-@media only screen and (orientation: landscape) {
-    /* Your CSS code for landscape mode */
 }
