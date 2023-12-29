@@ -1,0 +1,23 @@
+{
+    "Please write something!":"Please write something!",
+    "type new name here...":"type new name here...",
+    "delete":   "delete",
+    "type user's name here...":"type user's name here...",
+    "Add New User":"Add New User",
+    "Delete User":"Delete User",
+   "To Lists":"To Lists",
+    "change":"change",
+   "List of users:":" List of users:",
+    "Add User":"Add User",
+   "Edit Title":"Edit Title",
+    "Delete List":"Delete List",
+    "Archive List":"Archive List",
+   "Leave List":"Leave List",
+   "User does not exist.": "User does not exist or is in list.",
+   "User already exists in the list.": "User already exists in the list.",
+   "No":"No",
+   "Yes":"Yes",
+   "Are you sure you want to":"Are you sure you want to",
+   "this list?":"this list?"
+
+}

@@ -1,0 +1,20 @@
+dialog {
+    border: solid 1px rgb(147, 147, 147);
+    z-index: 1;
+  }
+  
+  
+  dialog::backdrop {
+    backdrop-filter: blur(2px);
+  }
+  
+  
+  dialog::backdrop {
+    backdrop-filter: blur(2px);
+  }
+
+  .modalYesNo {
+    display: flex;
+    justify-content: center;
+    gap: 40px
+  }

@@ -7,14 +7,29 @@ import userInfo from '../userInfo'
 import ModalWindow from './ModalWindow'
 import { addNewList, unarchiveList, getListById, getUserInfo, updateUserInfo } from '../ajaxController'
 import { ThemeContext } from '../App';
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import  '../styles/listsMenu.css'
+
 export default function ListsMenu({ updateListsData }) {
   const [shoppingLists, setShoppingLists] = useState(null)
   const [tileView, setTileView] = useState(false)
   const [newListText, setNewListText] = useState("")
   const [promptText, setPromptText] = useState("")
   const [userLists, setUserLists] = useState(null)
-
   const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const { i18n, t } = useTranslation(["home"]);
+
+  const handleLanguageChange = (languageId) => {
+    console.log(languageId)
+		i18n.changeLanguage(languageId);
+	};
+	useEffect(() => {
+		if (localStorage.getItem("i18nextLng")?.length > 2) {
+			i18next.changeLanguage("en");
+		}
+	}, []);
 
   useEffect(() => {
     getUserInfo()
@@ -113,7 +128,7 @@ export default function ListsMenu({ updateListsData }) {
           console.error('Error adding list:', error)
         })
     }
-    else setPromptText("Please write something!")
+    else setPromptText(t("Please write something!"))
 
   }
 
@@ -139,11 +154,11 @@ export default function ListsMenu({ updateListsData }) {
       <ModalWindow
         addButton={<AddButton
           addHandler={addList}
-          title="Add New List"
+          title={t("Add New List")}
         />}
         promptText={promptText}
         closeWindow={() => closeModaWindow()}
-        textForPlaceHolder="type new list here..."
+        textForPlaceHolder={t("type new list here...")}
         handleInputChange={handleInputChange}
         inputValue={newListText}
       />
@@ -153,28 +168,37 @@ export default function ListsMenu({ updateListsData }) {
             showArchivedResolved={() => showOrHideItems("archived")}
             showUnarchivedUnresolved={() => showOrHideItems("unarchived")}
             showAll={() => showOrHideItems("all")}
-            text1="Unarchived"
-            text2="Archived"
+            text1={t("Unarchived")}
+            text2={t("Archived")}
+            text3={t("Show All")}
           />
           <ThemeStyle
             changeThemeList={changeThemeList}
             changeThemeTiles={changeThemeTiles}
           />
-          <div className='changeLanguageButton button' ></div>
-          <div className='darkThemeButton button' title="Change Theme" onClick={toggleTheme}></div>
+          
+      
+          <div className="dropdown changeLanguage">
+          <div className='changeLanguageButton button icon' ></div>
+    <div className="dropdown-content">
+    <p id="en" onClick={() => handleLanguageChange("en")}>English</p>
+    <p id="cz" onClick={() => handleLanguageChange("cz")} >Čeština</p>
+    </div>
+  </div>
+          <div className='darkThemeButton button' title={t("Change Theme")} onClick={toggleTheme}></div>
           <AddButton
             addHandler={showModal}
-            title="Add New List"
+            title={t("Add New List")}
           />
         </div>
         <div className={tileView ? 'listOfLists tilesStyle' : 'listOfLists'}>
           {filteredLists && filteredLists.length === 0 ? (
-            <div className='centerText'>You don't have any lists yet</div>
+            <div className='centerText'>{t("You don't have any lists yet")}</div>
           ) : (
             filteredLists
               ?.filter(list => list.isShown)
               .map(list => (
-                <div className={tileView ? 'listInfo titleStyleListBox' : 'listInfo'} key={list.listId}>
+                <div className={tileView ? 'listInfo tilesStyleListBox' : 'listInfo'} key={list.listId}>
                   <List
                     tileView={tileView}
                     isArchived={list.isArchived}

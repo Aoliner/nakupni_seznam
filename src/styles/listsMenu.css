@@ -1,0 +1,49 @@
+.list {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .listsMenuOptions {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2.5px solid black;
+  }
+  
+  .changeLanguage {
+    margin-left: auto;
+  }
+  
+  .changeLanguageButton {
+    background-image: url("/public/icons/globe.png");
+  }
+  
+  
+  .darkThemeButton {
+    background-image: url("/public/icons/moon.png");
+  }
+  
+  
+  .listSettings {
+    background-image: url("/public/icons/settings.png");
+  }
+  
+  
+  .listName {
+    font-size: 1.2rem;
+  }
+  
+  .listArchived {
+    background-image: url("/public/icons/archive.png");
+  }
+  
+  
+  .listBorder {
+    border: #000000 solid 1px;
+  }
+  
+  

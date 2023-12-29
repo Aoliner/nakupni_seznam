@@ -7,6 +7,8 @@ import ModalWindow from './ModalWindow'
 import { nanoid } from 'nanoid'
 import Filter from './Filter'
 import { getListById, deleteItemById, addNewItemToList, toggleItemStatus } from '../ajaxController'
+import { useTranslation } from "react-i18next";
+import  '../styles/listMenu.css'
 
 export default function ListMenu({ listId }) {
   const [shoppingItems, setShoppingItems] = useState(null)
@@ -14,6 +16,7 @@ export default function ListMenu({ listId }) {
   const [promptText, setPromptText] = useState("")
   let popupDialogueInput
   let popupDialogue
+  const { t } = useTranslation(["list"]);
 
   useEffect(() => {
     getListById(listId)
@@ -71,7 +74,7 @@ export default function ListMenu({ listId }) {
         })
       closeModaWindow()
     }
-    else setPromptText("Please write something!")
+    else setPromptText(t("Please write something!"))
   }
 
 
@@ -115,17 +118,17 @@ export default function ListMenu({ listId }) {
       <ModalWindow
         addButton={<AddButton
           addHandler={addItem}
-          title="Add New Item"
+          title={t("Add New Item")}
         />}
         promptText={promptText}
         closeWindow={() => closeModaWindow()}
-        textForPlaceHolder="type new item here..."
+        textForPlaceHolder={t("type new item here...")}
         handleInputChange={handleInputChange}
         inputValue={newItemText}
       />
       <div className='disableWhileModalWindow'>
         <div className="listMenuHeader">
-          <Link to="/"><div className="listMenuBackButton button" title="To Lists" ></div></Link>
+          <Link to="/"><div className="listMenuBackButton button" title={t("To Lists")} ></div></Link>
           <div className='listMenuListName'>{shoppingItems?.listName}</div>
         </div>
         <div className='listMenuOptions'>
@@ -133,17 +136,18 @@ export default function ListMenu({ listId }) {
             showArchivedResolved={() => showOrHideItems("resolved")}
             showUnarchivedUnresolved={() => showOrHideItems("unresolved")}
             showAll={() => showOrHideItems("all")}
-            text1="Unresolved"
-            text2="Resolved"
+            text1={t("Unresolved")}
+            text2={t("Resolved")}
+            text3={t("Show All")}
           />
           <div className='listMenuNewItem'>
-            <AddButton title="Add New Item"
+            <AddButton title={t("Add New Item")}
               addHandler={showModal} />
           </div>
         </div>
         <div className='listMenuItems listsStyle'>
           {shoppingItems?.items.length === 0 ? (
-            <div style={{ textAlign: 'center' }}>You don't have any items yet</div>
+            <div style={{ textAlign: 'center' }}>{t("You don't have any items yet")}</div>
           ) : (
             shoppingItems?.items.map(item => (
               <Item
@@ -156,7 +160,7 @@ export default function ListMenu({ listId }) {
                 deleteButton={<DeleteButton
                   deleteHandler={deleteItem}
                   id={item.itemId}
-                  title="Delete Item" />}
+                  title={t("Delete Item")} />}
               />
             ))
           )}
