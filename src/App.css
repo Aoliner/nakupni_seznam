@@ -8,7 +8,7 @@
   pointer-events: none;
 }
 
-/* media Quaries */
+/* media Queries */
 @media only screen and (max-width: 479px) {
   html {
     font-size:23px;
