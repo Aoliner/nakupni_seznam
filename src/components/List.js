@@ -23,7 +23,7 @@ export default function List({ listName, isShown, isArchived, listId, unarchive,
                 onClick={() => {
                   unarchive(listId);
                 }}
-                className='listArchived button'
+                className='listArchived icon button'
               ></div>
             )
           )}
