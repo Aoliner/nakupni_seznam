@@ -8,7 +8,9 @@ import { nanoid } from 'nanoid'
 import Filter from './Filter'
 import { getListById, deleteItemById, addNewItemToList, toggleItemStatus } from '../ajaxController'
 import { useTranslation } from "react-i18next";
-import  '../styles/listMenu.css'
+import '../styles/listMenu.css'
+import PieChart from './PieChart'
+import Statistics from './Statistics'
 
 export default function ListMenu({ listId }) {
   const [shoppingItems, setShoppingItems] = useState(null)
@@ -16,7 +18,11 @@ export default function ListMenu({ listId }) {
   const [promptText, setPromptText] = useState("")
   let popupDialogueInput
   let popupDialogue
-  const { t } = useTranslation(["list"]);
+  const { t } = useTranslation(["list"])
+  const [showStatistics, setShowStatistics] = useState(true)
+  function toggleStatistics() {
+    setShowStatistics((prevShowStatistics) => !prevShowStatistics);
+  }
 
   useEffect(() => {
     getListById(listId)
@@ -140,6 +146,8 @@ export default function ListMenu({ listId }) {
             text2={t("Resolved")}
             text3={t("Show All")}
           />
+          <Statistics
+            toggleStatistics={toggleStatistics} />
           <div className='listMenuNewItem'>
             <AddButton title={t("Add New Item")}
               addHandler={showModal} />
@@ -165,7 +173,9 @@ export default function ListMenu({ listId }) {
             ))
           )}
         </div>
+        {showStatistics && <PieChart items={shoppingItems?.items} />}
       </div>
+
     </div>
   )
 }

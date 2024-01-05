@@ -1,7 +1,8 @@
 
 .App {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+
 }
 
 .disabled {
@@ -9,9 +10,9 @@
 }
 
 /* media Queries */
-@media only screen and (max-width: 479px) {
+@media only screen and (max-width: 450px) {
   html {
-    font-size:23px;
+    font-size:20px;
   }
   input[type=checkbox]{
     transform: scale(1.8);
@@ -19,15 +20,21 @@
 
   .tilesStyle {
     grid-template-columns:1fr;
-
+  
+  }
+  
+  .icon {
+    margin: 0.4rem; 
+  }
+  .doughnut,.barChart {
+    width:12rem;
+    height:12rem;
+ 
+  } 
+  
 }
 
-.icon {
-  margin: 0.5rem; 
-}
-}
-
-@media only screen and (min-width: 480px) and (max-width: 767px) {
+@media only screen and (min-width: 451px) and (max-width: 767px) {
   html {
     font-size:25px;
   }
@@ -38,6 +45,10 @@
   .icon{
     margin: 0.4rem; 
   }
+  .doughnut,.barChart{
+    width:12.5rem;
+    height:12.5rem;
+  } 
 }
 
 
@@ -51,6 +62,10 @@
   .icon {
     margin: 0.4rem;
   }
+  .doughnut,.barChart{
+    height:13rem;
+    width:13rem;
+  } 
 }
 
 
@@ -65,6 +80,10 @@
   .icon {
     margin: 0.3rem; 
   }
+  .doughnut,.barChart{
+    width:14rem;
+    height:14rem;
+  } 
 }
 
 
@@ -84,4 +103,8 @@
 .icon{
   margin: 0.3rem; 
 }
+.doughnut,.barChart{
+  width:14rem;
+  height:14rem;
+} 
 }

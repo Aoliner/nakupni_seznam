@@ -63,6 +63,11 @@
     border-bottom: 2.5px solid rgb(255, 255, 255);
   }
   
+#dark .statistics{
+    background-image: url("/public/icons/chart-histogram_white.png");
+    padding: 0.8rem;
+  }
+  
   #dark .dropdown-content {
     background-color: #1b1616;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -91,3 +96,5 @@
   #dark .filterButton {
     background-image: url("/public/icons/list-check_white.png");
   }
+  #dark  .tilesStyleListBox {
+    border: 0.5px solid white}

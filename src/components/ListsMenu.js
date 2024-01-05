@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext  } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import AddButton from './AddButton'
 import ThemeStyle from './ThemeStyle'
 import Filter from './Filter'
@@ -9,8 +9,9 @@ import { addNewList, unarchiveList, getListById, getUserInfo, updateUserInfo } f
 import { ThemeContext } from '../App';
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-import  '../styles/listsMenu.css'
-
+import '../styles/listsMenu.css'
+import BarChart from './BarChart'
+import Statistics from './Statistics'
 export default function ListsMenu({ updateListsData }) {
   const [shoppingLists, setShoppingLists] = useState(null)
   const [tileView, setTileView] = useState(false)
@@ -18,18 +19,21 @@ export default function ListsMenu({ updateListsData }) {
   const [promptText, setPromptText] = useState("")
   const [userLists, setUserLists] = useState(null)
   const { theme, toggleTheme } = useContext(ThemeContext);
-
+  const [showStatistics, setShowStatistics] = useState(true)
+  function toggleStatistics() {
+    setShowStatistics((prevShowStatistics) => !prevShowStatistics);
+  }
   const { i18n, t } = useTranslation(["home"]);
 
   const handleLanguageChange = (languageId) => {
     console.log(languageId)
-		i18n.changeLanguage(languageId);
-	};
-	useEffect(() => {
-		if (localStorage.getItem("i18nextLng")?.length > 2) {
-			i18next.changeLanguage("en");
-		}
-	}, []);
+    i18n.changeLanguage(languageId);
+  };
+  useEffect(() => {
+    if (localStorage.getItem("i18nextLng")?.length > 2) {
+      i18next.changeLanguage("en");
+    }
+  }, []);
 
   useEffect(() => {
     getUserInfo()
@@ -176,15 +180,16 @@ export default function ListsMenu({ updateListsData }) {
             changeThemeList={changeThemeList}
             changeThemeTiles={changeThemeTiles}
           />
-          
-      
+
+          <Statistics
+            toggleStatistics={toggleStatistics} />
           <div className="dropdown changeLanguage">
-          <div className='changeLanguageButton button icon' ></div>
-    <div className="dropdown-content">
-    <p id="en" onClick={() => handleLanguageChange("en")}>English</p>
-    <p id="cz" onClick={() => handleLanguageChange("cz")} >Čeština</p>
-    </div>
-  </div>
+            <div className='changeLanguageButton button icon' ></div>
+            <div className="dropdown-content">
+              <p id="en" onClick={() => handleLanguageChange("en")}>English</p>
+              <p id="cz" onClick={() => handleLanguageChange("cz")} >Čeština</p>
+            </div>
+          </div>
           <div className='darkThemeButton button' title={t("Change Theme")} onClick={toggleTheme}></div>
           <AddButton
             addHandler={showModal}
@@ -212,6 +217,7 @@ export default function ListsMenu({ updateListsData }) {
               ))
           )}
         </div>
+        {showStatistics && <BarChart filteredLists={filteredLists} />}
       </div>
     </>
   )

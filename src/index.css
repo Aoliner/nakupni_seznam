@@ -21,6 +21,8 @@ code {
   background: linear-gradient(to right, #1c92d2, #f2fcfe);
 }
 
+
+
 /* Buttons */
 
 .button {
@@ -31,7 +33,6 @@ code {
   background-size: contain;
   object-position: center center;
   margin: 2px;
-  
 }
 
 .button:hover {
@@ -44,7 +45,10 @@ code {
   padding: 0.8rem;
 }
 
-
+.statistics{
+  background-image: url("/public/icons/chart-histogram.png");
+  padding: 0.8rem;
+}
 .deleteButton {
   background-image: url("/public/icons/cross.png");
   min-width: 1rem;
@@ -109,4 +113,8 @@ input::placeholder {
   gap: 9px;
   justify-content: center;
   align-items: center;
+}
+
+.doughnut, .barChart {
+margin: 0 auto;
 }
