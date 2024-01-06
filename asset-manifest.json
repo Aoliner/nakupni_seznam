@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/nakupni_seznam/static/css/main.5766a737.css",
+    "main.js": "/nakupni_seznam/static/js/main.5e52bae3.js",
+    "static/js/787.85dc4ec5.chunk.js": "/nakupni_seznam/static/js/787.85dc4ec5.chunk.js",
+    "index.html": "/nakupni_seznam/index.html",
+    "static/media/getFetch.cjs": "/nakupni_seznam/static/media/getFetch.40f37ddea2378391108f.cjs",
+    "main.5766a737.css.map": "/nakupni_seznam/static/css/main.5766a737.css.map",
+    "main.5e52bae3.js.map": "/nakupni_seznam/static/js/main.5e52bae3.js.map",
+    "787.85dc4ec5.chunk.js.map": "/nakupni_seznam/static/js/787.85dc4ec5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5766a737.css",
+    "static/js/main.5e52bae3.js"
+  ]
+}

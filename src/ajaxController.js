@@ -1,5 +1,4 @@
 
-
 function handleResponse(response) {
   if (response.ok) {
     return response.json()
@@ -322,45 +321,44 @@ export function getUsers(){
   .then(handleResponse)
 }
 
-export function addNewUserToList(listId, userName) {
-  return getUsers()
-    .then((users) => {
-      const existingUser = users.find((user) => user.UserName === userName)
-      if (existingUser) {
-        const url = `https://6565b8daeb8bb4b70ef23961.mockapi.io/api/shoppingListGetOne/${listId}`
-
-        return fetch(url)
-          .then(handleResponse)
-          .then((fetchedList) => {
-            if (
-              !fetchedList.users.guests.some(
-                (guest) => guest.UserName === userName
-              ) &&
-              fetchedList.users.owner.UserName !== userName
-            ) {
-              const updatedGuests = [...fetchedList.users.guests, existingUser]
-              const updatedList = {
-                ...fetchedList,
-                users: { ...fetchedList.users, guests: updatedGuests },
+  export function addNewUserToList(listId, userName) {
+    return getUsers()
+      .then((users) => {
+        const existingUser = users.find((user) => user.UserName === userName)
+        if (existingUser) {
+          const url = `https://6565b8daeb8bb4b70ef23961.mockapi.io/api/shoppingListGetOne/${listId}`
+  
+          return fetch(url)
+            .then(handleResponse)
+            .then((fetchedList) => {
+              if (
+                !fetchedList.users.guests.some(
+                  (guest) => guest.UserName === userName
+                ) &&
+                fetchedList.users.owner.UserName !== userName
+              ) {
+                const updatedGuests = [...fetchedList.users.guests, existingUser]
+                const updatedList = {
+                  ...fetchedList,
+                  users: { ...fetchedList.users, guests: updatedGuests },
+                }
+  
+                const requestOptions = {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(updatedList),
+                }
+  
+                return fetch(url, requestOptions).then(handleResponse)
+              } else {
+                throw new Error('User already exists in the list.')
               }
-
-              const requestOptions = {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedList),
-              }
-
-              return fetch(url, requestOptions).then(handleResponse)
-            } else {
-              throw new Error('User already exists in the list.')
-            }
-          })
-      } else {
-        throw new Error('User does not exist.')
-      }
-    })
-}
-
+            })
+        } else {
+          throw new Error('User does not exist.')
+        }
+      })
+  }
 
 
   export function isUserListOwner(listId, userId) {

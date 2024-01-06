@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext  } from 'react'
 import AddButton from './AddButton'
 import ThemeStyle from './ThemeStyle'
 import Filter from './Filter'
@@ -7,33 +7,14 @@ import userInfo from '../userInfo'
 import ModalWindow from './ModalWindow'
 import { addNewList, unarchiveList, getListById, getUserInfo, updateUserInfo } from '../ajaxController'
 import { ThemeContext } from '../App';
-import { useTranslation } from "react-i18next";
-import i18next from "i18next";
-import '../styles/listsMenu.css'
-import BarChart from './BarChart'
-import Statistics from './Statistics'
 export default function ListsMenu({ updateListsData }) {
   const [shoppingLists, setShoppingLists] = useState(null)
   const [tileView, setTileView] = useState(false)
   const [newListText, setNewListText] = useState("")
   const [promptText, setPromptText] = useState("")
   const [userLists, setUserLists] = useState(null)
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const [showStatistics, setShowStatistics] = useState(true)
-  function toggleStatistics() {
-    setShowStatistics((prevShowStatistics) => !prevShowStatistics);
-  }
-  const { i18n, t } = useTranslation(["home"]);
 
-  const handleLanguageChange = (languageId) => {
-    console.log(languageId)
-    i18n.changeLanguage(languageId);
-  };
-  useEffect(() => {
-    if (localStorage.getItem("i18nextLng")?.length > 2) {
-      i18next.changeLanguage("en");
-    }
-  }, []);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     getUserInfo()
@@ -132,7 +113,7 @@ export default function ListsMenu({ updateListsData }) {
           console.error('Error adding list:', error)
         })
     }
-    else setPromptText(t("Please write something!"))
+    else setPromptText("Please write something!")
 
   }
 
@@ -158,11 +139,11 @@ export default function ListsMenu({ updateListsData }) {
       <ModalWindow
         addButton={<AddButton
           addHandler={addList}
-          title={t("Add New List")}
+          title="Add New List"
         />}
         promptText={promptText}
         closeWindow={() => closeModaWindow()}
-        textForPlaceHolder={t("type new list here...")}
+        textForPlaceHolder="type new list here..."
         handleInputChange={handleInputChange}
         inputValue={newListText}
       />
@@ -172,38 +153,28 @@ export default function ListsMenu({ updateListsData }) {
             showArchivedResolved={() => showOrHideItems("archived")}
             showUnarchivedUnresolved={() => showOrHideItems("unarchived")}
             showAll={() => showOrHideItems("all")}
-            text1={t("Unarchived")}
-            text2={t("Archived")}
-            text3={t("Show All")}
+            text1="Unarchived"
+            text2="Archived"
           />
           <ThemeStyle
             changeThemeList={changeThemeList}
             changeThemeTiles={changeThemeTiles}
           />
-
-          <Statistics
-            toggleStatistics={toggleStatistics} />
-          <div className="dropdown changeLanguage">
-            <div className='changeLanguageButton button icon' ></div>
-            <div className="dropdown-content">
-              <p id="en" onClick={() => handleLanguageChange("en")}>English</p>
-              <p id="cz" onClick={() => handleLanguageChange("cz")} >Čeština</p>
-            </div>
-          </div>
-          <div className='darkThemeButton button' title={t("Change Theme")} onClick={toggleTheme}></div>
+          <div className='changeLanguageButton button' ></div>
+          <div className='darkThemeButton button' title="Change Theme" onClick={toggleTheme}></div>
           <AddButton
             addHandler={showModal}
-            title={t("Add New List")}
+            title="Add New List"
           />
         </div>
         <div className={tileView ? 'listOfLists tilesStyle' : 'listOfLists'}>
           {filteredLists && filteredLists.length === 0 ? (
-            <div className='centerText'>{t("You don't have any lists yet")}</div>
+            <div className='centerText'>You don't have any lists yet</div>
           ) : (
             filteredLists
               ?.filter(list => list.isShown)
               .map(list => (
-                <div className={tileView ? 'listInfo tilesStyleListBox' : 'listInfo'} key={list.listId}>
+                <div className={tileView ? 'listInfo titleStyleListBox' : 'listInfo'} key={list.listId}>
                   <List
                     tileView={tileView}
                     isArchived={list.isArchived}
@@ -217,7 +188,6 @@ export default function ListsMenu({ updateListsData }) {
               ))
           )}
         </div>
-        {showStatistics && <BarChart filteredLists={filteredLists} />}
       </div>
     </>
   )

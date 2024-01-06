@@ -7,10 +7,6 @@ import AddButton from './AddButton'
 import { useNavigate } from "react-router-dom"
 import ModalYesNo from './ModalYesNo'
 import { getListById, getUserInfo, deleteUserFromList, addNewUserToList, changeListName, userLeaveList, updateUserAfterLeavingList, deleteListById, archiveListById } from '../ajaxController'
-import { useTranslation } from "react-i18next";
-import  '../styles/settings.css'
-
-
 
 export default function Settings({ listId }) {
     const navigate = useNavigate()
@@ -18,8 +14,6 @@ export default function Settings({ listId }) {
     const [newText, setNewText] = useState('')
     const [promptText, setPromptText] = useState("")
     const [userList, setUserList] = useState(null)
-    const { t } = useTranslation(["settings"]);
-
 
 
 
@@ -74,7 +68,7 @@ export default function Settings({ listId }) {
                 closeModal("popupDialogue")
             })
             .catch((error) => {
-                setPromptText(t(error.message))
+                setPromptText(error.message)
             })
     }
 
@@ -91,7 +85,7 @@ export default function Settings({ listId }) {
                 })
             closeModal("dialogChangeName")
         } else {
-            setPromptText(t("Please write something!"))
+            setPromptText('Please write something!')
         }
 
     }
@@ -151,18 +145,18 @@ export default function Settings({ listId }) {
             <ModalWindow
                 addButton={<AddButton
                     addHandler={addUser}
-                    title={t("Add New User")}
+                    title="Add New User"
 
                 />}
                 promptText={promptText}
                 closeWindow={() => closeModal("popupDialogue")}
-                textForPlaceHolder={t("type user's name here...")}
+                textForPlaceHolder="type user's name here..."
                 handleInputChange={handleInputChange}
                 inputValue={newText}
             />
             <ModalYesNo
                 closeWindow={() => closeModal("dialogueYesNo")}
-                promptText={t("delete")}
+                promptText="delete"
                 cancel={() => closeModal("dialogueYesNo")}
                 confrim={() => deleteList(listId)}
             />
@@ -173,24 +167,24 @@ export default function Settings({ listId }) {
                 <div className='promptText'>{promptText}</div>
                 <input
                     type="text"
-                    placeholder={t("type new name here...")}
+                    placeholder="type new name here..."
                     className='dialogChangeNameInput'
                     onChange={handleInputChange}
                     value={newText} />
                 <form method="dialog">
-                    <div className='editListNameButton button' onClick={editListName}>{t("change")}</div>
+                    <div className='editListNameButton button' onClick={editListName}>change</div>
                 </form>
             </dialog>
 
             <div className='disableWhileModalWindow'>
                 <div className="listMenuHeader">
-                    <Link to="/"><div className="listMenuBackButton button" title={t("To Lists")} ></div></Link>
+                    <Link to="/"><div className="listMenuBackButton button" title="To Lists" ></div></Link>
                     <div className='listMenuListName'>{shoppingList?.listName}</div></div>
-                <div className='listOfUsers'><div className='listOfUsersTitle'>{t("List of users:")}</div>
+                <div className='listOfUsers'><div className='listOfUsersTitle'>List of users:</div>
                     {shoppingList && (
                         <>
                             <div className='administratorUser'>
-                                <div >{shoppingList.users.owner.UserName}</div><div className='administatorBadge ' title="Administrator"></div></div>
+                                <div >{shoppingList.users.owner.UserName}</div><div className='administatorBadge' title="Administrator"></div></div>
                             {shoppingList.users.guests.map(guest => (
                                 <div className='userSettingsDelete' key={guest.UserId}>
                                     {guest.UserName}
@@ -198,7 +192,7 @@ export default function Settings({ listId }) {
                                         <DeleteButton
                                             deleteHandler={deleteUser}
                                             id={guest.UserId}
-                                            title={t("Delete User")}
+                                            title={'Delete User'}
                                         />
                                     )}
                                 </div>
@@ -208,12 +202,12 @@ export default function Settings({ listId }) {
                 </div>
                 {shoppingList && userList?.UserName === shoppingList.users.owner.UserName ? (
                     <div className='administratorMenu'>
-                        <div className='button' onClick={() => showModal("popupDialogue")}>{t("Add User")}</div>
-                        <div className='button' onClick={() => showModal("dialogChangeName")}>{t("Edit Title")}</div>
-                        <div className='button' onClick={() => showModal("dialogueYesNo")}>{t("Delete List")}</div>
-                        <div className='button' onClick={() => archiveList(listId)}> {t("Archive List")}</div>
+                        <div className='button' onClick={() => showModal("popupDialogue")}>Add User</div>
+                        <div className='button' onClick={() => showModal("dialogChangeName")}>Edit Title</div>
+                        <div className='button' onClick={() => showModal("dialogueYesNo")}>Delete List</div>
+                        <div className='button' onClick={() => archiveList(listId)}> Archive List</div>
                     </div>)
-                    : (<div className="leaveButton button" onClick={leaveList}>{t("Leave List")}</div>)}
+                    : (<div className="leaveButton button" onClick={leaveList}>Leave List</div>)}
             </div>
         </div>
     )

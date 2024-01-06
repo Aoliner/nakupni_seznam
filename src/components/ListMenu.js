@@ -7,10 +7,6 @@ import ModalWindow from './ModalWindow'
 import { nanoid } from 'nanoid'
 import Filter from './Filter'
 import { getListById, deleteItemById, addNewItemToList, toggleItemStatus } from '../ajaxController'
-import { useTranslation } from "react-i18next";
-import '../styles/listMenu.css'
-import PieChart from './PieChart'
-import Statistics from './Statistics'
 
 export default function ListMenu({ listId }) {
   const [shoppingItems, setShoppingItems] = useState(null)
@@ -18,11 +14,6 @@ export default function ListMenu({ listId }) {
   const [promptText, setPromptText] = useState("")
   let popupDialogueInput
   let popupDialogue
-  const { t } = useTranslation(["list"])
-  const [showStatistics, setShowStatistics] = useState(true)
-  function toggleStatistics() {
-    setShowStatistics((prevShowStatistics) => !prevShowStatistics);
-  }
 
   useEffect(() => {
     getListById(listId)
@@ -80,7 +71,7 @@ export default function ListMenu({ listId }) {
         })
       closeModaWindow()
     }
-    else setPromptText(t("Please write something!"))
+    else setPromptText("Please write something!")
   }
 
 
@@ -124,17 +115,17 @@ export default function ListMenu({ listId }) {
       <ModalWindow
         addButton={<AddButton
           addHandler={addItem}
-          title={t("Add New Item")}
+          title="Add New Item"
         />}
         promptText={promptText}
         closeWindow={() => closeModaWindow()}
-        textForPlaceHolder={t("type new item here...")}
+        textForPlaceHolder="type new item here..."
         handleInputChange={handleInputChange}
         inputValue={newItemText}
       />
       <div className='disableWhileModalWindow'>
         <div className="listMenuHeader">
-          <Link to="/"><div className="listMenuBackButton button" title={t("To Lists")} ></div></Link>
+          <Link to="/"><div className="listMenuBackButton button" title="To Lists" ></div></Link>
           <div className='listMenuListName'>{shoppingItems?.listName}</div>
         </div>
         <div className='listMenuOptions'>
@@ -142,20 +133,17 @@ export default function ListMenu({ listId }) {
             showArchivedResolved={() => showOrHideItems("resolved")}
             showUnarchivedUnresolved={() => showOrHideItems("unresolved")}
             showAll={() => showOrHideItems("all")}
-            text1={t("Unresolved")}
-            text2={t("Resolved")}
-            text3={t("Show All")}
+            text1="Unresolved"
+            text2="Resolved"
           />
-          <Statistics
-            toggleStatistics={toggleStatistics} />
           <div className='listMenuNewItem'>
-            <AddButton title={t("Add New Item")}
+            <AddButton title="Add New Item"
               addHandler={showModal} />
           </div>
         </div>
         <div className='listMenuItems listsStyle'>
           {shoppingItems?.items.length === 0 ? (
-            <div style={{ textAlign: 'center' }}>{t("You don't have any items yet")}</div>
+            <div style={{ textAlign: 'center' }}>You don't have any items yet</div>
           ) : (
             shoppingItems?.items.map(item => (
               <Item
@@ -168,14 +156,12 @@ export default function ListMenu({ listId }) {
                 deleteButton={<DeleteButton
                   deleteHandler={deleteItem}
                   id={item.itemId}
-                  title={t("Delete Item")} />}
+                  title="Delete Item" />}
               />
             ))
           )}
         </div>
-        {showStatistics && <PieChart items={shoppingItems?.items} />}
       </div>
-
     </div>
   )
 }

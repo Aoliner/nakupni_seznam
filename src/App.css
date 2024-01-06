@@ -1,110 +1,60 @@
 
+
 .App {
+  
+/*   width:95%;
+  max-width: 600px;
+  margin: 0 auto; */
   width: 100vw;
-  min-height: 100vh;
-
+  height: 100vh;
+  /* text-align: center; */
+ /* border: 2px solid black;; */
 }
 
-.disabled {
-  pointer-events: none;
-}
-
-/* media Queries */
-@media only screen and (max-width: 450px) {
+@media screen and (min-width: 400px) {
   html {
     font-size:20px;
   }
   input[type=checkbox]{
-    transform: scale(1.8);
+    transform: scale(1.5);
   }
-
-  .tilesStyle {
-    grid-template-columns:1fr;
-  
+  input[type=text]{
+    font-size: 17px;
   }
-  
-  .icon {
-    margin: 0.4rem; 
-  }
-  .doughnut,.barChart {
-    width:12rem;
-    height:12rem;
- 
-  } 
-  
-}
-
-@media only screen and (min-width: 451px) and (max-width: 767px) {
-  html {
-    font-size:25px;
-  }
-  input[type=checkbox]{
-    transform: scale(1.9);
-  }
-
-  .icon{
-    margin: 0.4rem; 
-  }
-  .doughnut,.barChart{
-    width:12.5rem;
-    height:12.5rem;
-  } 
 }
 
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  html {
-    font-size:27px;
-  }
-  input[type=checkbox]{
-    transform: scale(2.1);
-  }
-  .icon {
-    margin: 0.4rem;
-  }
-  .doughnut,.barChart{
-    height:13rem;
-    width:13rem;
-  } 
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  html {
-    font-size:29px;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
   }
-  input[type=checkbox]{
-    transform: scale(2.3);
-  }
-
-  .icon {
-    margin: 0.3rem; 
-  }
-  .doughnut,.barChart{
-    width:14rem;
-    height:14rem;
-  } 
 }
 
-
-@media only screen and (min-width: 1200px) {
-  html {
-    font-size:32px;
-  }
-  input[type=checkbox]{
-    transform: scale(2.5);
-  }
-
-  .tilesStyle {
-    grid-template-columns: repeat(3, 1fr);
-
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.icon{
-  margin: 0.3rem; 
+.App-link {
+  color: #61dafb;
 }
-.doughnut,.barChart{
-  width:14rem;
-  height:14rem;
-} 
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

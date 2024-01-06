@@ -6,13 +6,12 @@ import {Routes,Route} from "react-router-dom";
 import listsData from './lists';
 import ListsMenu from './components/ListsMenu';
 import Settings from './components/Settings';
-import { useState, useEffect, createContext, Suspense } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { getListById } from './ajaxController';
 
 export const ThemeContext = createContext(null);
 
 function App() {
-
   const [theme, setTheme] = useState("dark");
   const [lists, setLists] = useState(null);
 
@@ -37,7 +36,6 @@ function App() {
 
   
   return (
-    <Suspense fallback={null}>
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
     <div className="App" id={theme}>
       <Routes>
@@ -63,11 +61,7 @@ function App() {
       </Routes>
     </div>
     </ThemeContext.Provider>
-    </Suspense>
   );
 }
 
 export default App;
-
-
-
