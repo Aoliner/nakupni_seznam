@@ -1,0 +1,23 @@
+{
+    "Please write something!":"Napište prosím něco!",
+    "type new name here...":"sem zadejte nové jméno...",
+    "delete":   "smazat",
+    "type user's name here...":"sem zadejte uživatelské jméno...",
+    "Add New User":"Přidat nového uživatele",
+    "Delete User":"Smazat uživatele",
+   "To Lists":"Do seznamů",
+    "change":"změnit",
+   "List of users:":" Seznam uživatelů:",
+    "Add User":"Přidat uživatele",
+   "Edit Title":"Upravit název",
+    "Delete List":"Smazat seznam",
+    "Archive List":"Archivovat seznam",
+   "Leave List":"Opustit seznam",
+   "User does not exist.": "Uživatel neexistuje.",
+   "User already exists in the list.": "Uživatel je již v seznamu.",
+   "No":"Ne",
+   "Yes":"Ano",
+   "Are you sure you want to":"Jste si jisti, že chcete",
+   "this list?":"tento seznam?"
+
+}
